@@ -5,7 +5,7 @@
 </div>
 <div class="text-center">
   <input #foodInput /> <button (click)="food$.next(foodInput.value)">submit</button>
-  <h1 style="color: white;">hey you like {{result$ | async }} eh?</h1>
+  {{ result$ | async }}
 </div>
 <div>
   <img class="😸" src="./assets/grumpycatno.png" alt="grumpy cat">
