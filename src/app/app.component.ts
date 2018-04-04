@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/observable/merge';
 import { CatfoodService } from './catfood.service';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -30,15 +31,27 @@ export class AppComponent {
     map(foods => foods.join(', '))
   );
 
-  counterCat$ = this.increment$.pipe(
-    filter(({ clientX, clientY }) => this.hasBeenFedToGrumpyCat(clientX, clientY)),
-    filter((e: any) => e.target.matches('.🐟, .🌭, .🍔')),
+  counterCat$ = merge(
+    this.increment$.pipe(
+      filter(({ clientX, clientY }) => this.hasBeenFedToGrumpyCat(clientX, clientY)),
+      filter((e) => e.target.matches('.🐟, .🌭, .🍔')),
+    ),
+    this.result$.pipe(
+      filter(foods => foods.includes('burger response') || foods.includes('hot dog response') || foods.includes('goldfish response'))
+    )
+  ).pipe(
     scan(count => count + 1, 0)
   );
 
-  counterYou$ = this.increment$.pipe(
+  counterYou$ = merge(
+    this.increment$.pipe(
     filter(({ clientX, clientY }) => this.hasBeenFedToGrumpyCat(clientX, clientY)),
-    filter((e: any) => e.target.matches('.🍟, .🍕, .🍩, .🌮')),
+    filter(e => e.target.matches('.🍟, .🍕, .🍩, .🌮')),
+  ),
+    this.result$.pipe(
+      filter(foods => foods.includes('pizza response') || foods.includes('fries response') || foods.includes('donut response') || foods.includes('taco response'))
+    )
+  ).pipe(
     scan(count => count + 1, 0)
   );
 
