@@ -50,15 +50,16 @@ export class AppComponent {
     scan(count => count + 1, 0)
   );
 
-  counterYou$ = merge(
-    this.increment$.pipe(
+  catLikesDrag$ = this.increment$.pipe(
     filter(({ clientX, clientY }) => this.hasBeenFedToGrumpyCat(clientX, clientY)),
     filter(e => e.target.matches('.🍟, .🍕, .🍩, .🌮')),
-  ),
-    this.result$.pipe(
-      filter(foods => foods.some(x => x.value === 'pizza response' || x.value === 'fries response'))
-    )
-  ).pipe(
+  );
+
+  catLikesSearch$ = this.result$.pipe(
+    filter(foods => foods.some(x => x.value === 'pizza response' || x.value === 'fries response'))
+  );
+
+  counterYou$ = merge(this.catLikesDrag$, this.catLikesSearch$).pipe(
     scan(count => count + 1, 0)
   );
 
