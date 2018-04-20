@@ -4,8 +4,17 @@
   </h1>
 </div>
 <div class="text-center">
-  <input #foodInput /> <button (click)="food$.next(foodInput.value)">submit</button>
-  {{ result$ | async }}
+    <div style="position: relative; display: inline-block">
+  <input #foodInput (input)="food$.next(foodInput.value)" /> <button (click)="foodClick$.next(foodInput.value)">submit</button>
+  
+    <div style="position: absolute; width: 150px; background: white" *ngIf="food$ | async">
+        <ul>
+          <li *ngFor="let food of (result$ | async)">
+            {{food.key}}
+          </li>
+        </ul>
+      </div>
+  </div>
 </div>
 <div>
   <img class="😸" src="./assets/grumpycatno.png" alt="grumpy cat">
@@ -27,3 +36,8 @@
 </div>
 <div class="counter-cat">{{counterCat$ | async}}</div>
 <div class="counter-you">{{counterYou$ | async}}</div>
+<div class="text-white rules">
+  <p>HOW TO PLAY: Use the search bar to find foods or drag and drop into the bowl!</p>
+  <p>RULES: Feed Grumpy Cat something she likes, get a point. Feed Grumpy Cat something she does not like - she gets a point.</p> 
+  <p>HOW TO WIN: Whomever gets to 3 points first wins!</p>
+</div>
