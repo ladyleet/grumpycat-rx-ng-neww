@@ -20,7 +20,7 @@ export class AppComponent {
   increment$ = new Subject<any>();
   food$ = new Subject<string>();
   foodClick$ = new Subject<string>();
-  grumpycatsayno : String= './assets/grumpycatno.png';
+  grumpycatsayno: String = './assets/grumpycatno.png';
   grumpycatsayyes: String = './assets/grumpycatyes.png';
   grumpycatsay: String = this.grumpycatsayno;
 
