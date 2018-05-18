@@ -20,6 +20,9 @@ export class AppComponent {
   increment$ = new Subject<any>();
   food$ = new Subject<string>();
   foodClick$ = new Subject<string>();
+  grumpycatsayno : String= './assets/grumpycatno.png';
+  grumpycatsayyes: String = './assets/grumpycatyes.png';
+  grumpycatsay: String = this.grumpycatsayno;
 
   hasBeenFedToGrumpyCat(x: number, y: number) {
     return x > 0 && x < 700 && y > 400 && y < 700
@@ -88,8 +91,13 @@ export class AppComponent {
 
   showAlert$ = this.counterCat$.pipe(
     map((x) => x === 3),
-    tap(x => x && alert("cat won!"))
+    tap(x => x && this.grumpyIsHappy()),
+    tap(x => x && alert("cat won!")),
   );
+
+  grumpyIsHappy = () => {
+    this.grumpycatsay = this.grumpycatsayyes;
+  }
 
   constructor(public catfood: CatfoodService) {
   }
@@ -102,7 +110,6 @@ export class AppComponent {
       draggable.style.left = left + 'px';
     }));
     this.subscription.add(this.showAlert$.subscribe());
-
   }
 
   ngOnDestroy() {
